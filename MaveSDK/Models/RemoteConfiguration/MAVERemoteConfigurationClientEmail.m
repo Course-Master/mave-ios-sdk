@@ -59,9 +59,9 @@ NSString * const MAVERemoteConfigKeyClientEmailBody = @"body_template";
 }
 
 + (NSDictionary *)defaultJSONData {
-    NSString *subject = [NSString stringWithFormat:@"Join %@",
+    NSString *subject = [NSString stringWithFormat:@"Join my AMA on %@",
                          [MAVEClientPropertyUtils appName]];
-    NSString *body = [NSString stringWithFormat:@"Hey, I've been using %@ and thought you might like it. Check it out:\n\n{{ link }}",
+    NSString *body = [NSString stringWithFormat:@"Hey, I've scheduled an AMA (Ask Me Anything) on %@ and want you to join. Download the EdCast app and sign up so you can get notified once my AMA starts! Tap here to get started:\n\n{{ link }}",
                       [MAVEClientPropertyUtils appName]];
     return  @{
         MAVERemoteConfigKeyClientEmailTemplate: @{
