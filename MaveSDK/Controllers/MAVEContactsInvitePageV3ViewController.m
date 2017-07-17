@@ -531,9 +531,11 @@ NSString * const MAVEContactsInvitePageV3CellIdentifier = @"MAVEContactsInvitePa
                     [self updateToReflectPersonSelectedStatus:person];
                 }
             }
+            NSMutableArray *attendees = [NSMutableArray new];
             if (emailInvitesSent) {
                 for (MAVEABPerson *person in emailRecipients) {
                     person.selected = NO;
+                    [attendees addObject:[NSDictionary dictionaryWithObjectsAndKeys:person.firstName,@"firstName",person.lastName,@"lastName",person.emailAddresses[0],@"emailAddress", nil]];
                     [self updateToReflectPersonSelectedStatus:person];
                 }
             }
@@ -555,8 +557,13 @@ NSString * const MAVEContactsInvitePageV3CellIdentifier = @"MAVEContactsInvitePa
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [alert dismissWithClickedButtonIndex:0 animated:YES];
             });
+            NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:attendees,@"userData",nil];
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"Invites Sent" object:nil];
+                if (attendees) {
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"Invites Sent" object:nil userInfo:userInfoDict];
+                } else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"Invites Sent" object:nil];
+                }
             });
         }
     });
